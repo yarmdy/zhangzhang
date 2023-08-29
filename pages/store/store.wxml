@@ -1,0 +1,13 @@
+<!--index.wxml-->
+<scroll-view class="list" scroll-y="true" bindscrolltolower="scrollend">
+  <view wx:for="{{itemlist}}" class="item" wx:key="id">
+    <view class="part">头像</view>
+    <view class="part">{{item.name}}</view>
+    <view class="part">编辑</view>
+  </view>
+  <view class="item">1</view>
+  <view class="item">2</view>
+  <view class="item">3</view>
+  <view class="item">4</view>
+  <view class="item">5</view>
+</scroll-view>
