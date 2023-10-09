@@ -1,3 +1,5 @@
+const j = require("../../utils/core");
+const bll = require("../../utils/bll");
 // index.js
 // 获取应用实例
 const app = getApp()
@@ -5,6 +7,8 @@ const app = getApp()
 Page({
   data: {
     
+  },
+  onLoad(){
+    
   }
-  
 })

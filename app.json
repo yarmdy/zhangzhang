@@ -1,17 +1,19 @@
 {
-  "pages":[
+  "pages": [
     "pages/index/index",
     "pages/out/out",
     "pages/in/in",
     "pages/store/store",
     "pages/mine/mine",
-    "pages/logs/logs"
+    "pages/logs/logs",
+    "pages/login/login",
+    "pages/item/edit/edit"
   ],
-  "window":{
-    "backgroundTextStyle":"light",
+  "window": {
+    "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#4c0",
     "navigationBarTitleText": "掌账账",
-    "navigationBarTextStyle":"white"
+    "navigationBarTextStyle": "white"
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",
@@ -42,5 +44,8 @@
         "text": "我的"
       }
     ]
+  },
+  "useExtendedLib": {
+    "weui": true
   }
 }

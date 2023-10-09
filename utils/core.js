@@ -1,67 +1,132 @@
 const app = getApp();
 
 const j={
-  deferred:()=>{
-    let resolve,reject,notifyFunc,def;
-    let promise = new Promise((resolvet,rejectt)=>{
-      resolve=resolvet;
-      reject=rejectt;
-    });
-    function notify(func) {
+  app:app,
+  Deferred:()=>{
+    let status=0,def={},notifyFunc,failFunc,thenFunc;
+    function progress(data){
+      if(typeof notifyFunc=="function"){
+        notifyFunc(data);
+        status=status==0?1:status;
+      }
+      return def;
+    }
+    function reject(data){
+      if(typeof failFunc=="function"){
+        failFunc(data);
+        status=-1;
+      }
+      return def;
+    }
+    function resolve(data){
+      if(typeof thenFunc=="function"){
+        thenFunc(data);
+        status=2;
+      }
+      return def;
+    }
+    function notify(func){
       notifyFunc=func;
-      return promise;
+      return promise();
     }
-    function progress(obj){
-      typeof notifyFunc=="function" && notifyFunc(obj);
+    function fail(func){
+      failFunc=func;
+      return promise();
     }
-    promise.notify=notify;
-    def={
-      resolve:resolve,
-      reject:reject,
-      promise:promise,
-      then:promise.then,
-      catch:promise.catch,
-      notify:notify,
-      progress:progress,
-    };
+    function done(func){
+      thenFunc=func;
+      return promise();
+    }
+    function then(func){
+      thenFunc=func;
+      let res=j.Deferred();
+      def.done(function(data){
+        let newres = (typeof func=="function")&&func(data);
+        if(newres&&typeof newres.promise=="function"){
+          newres.promise().done(res.resolve).fail(res.reject).notify(res.progress);
+          return;
+        }
+        res.resolve(newres);
+      });
+      return res.promise();
+    }
+    function promise(){
+      let rrv,rrj;
+      let p=new Promise((rv,rj)=>{
+        rrv=rv;
+        rrj=rj;
+      });
+      // let res={
+      //   fail:fail,
+      //   then:then,
+      //   notify:notify,
+      //   done:done,
+      //   promise:promise
+      // };
+      p.fail=fail;
+      p.then=then;
+      p.notify=notify;
+      p.done=done;
+      p.promise=promise;
+      p.catch=fail;
+      return p;
+    }
+    def.promise=promise;
+    def.fail=fail;
+    def.then=then;
+    def.done=done;
+    def.reject=reject;
+    def.resolve=resolve;
+    def.notify=notify;
+    def.progress=progress;
     return def;
   },
-  delay:mi=>{
-    var def = j.deferred();
-    setTimeout(()=>{
-      def.progress("倒计时结束预警");
-      def.resolve(`${mi}毫秒倒计时结束`);
-    },mi);
-    return def.promise;
-  },
+  
   ajax:(method,url,data)=>{
-    var def = j.deferred();
+    j.load();
+    var def = j.Deferred();
     var req = wx.request({
       url: url,
+      //data:method=="POST"?JSON.stringify(data):data,
       data:data,
       method:method,
       dataType:"json",
       header:{
-        "Content-Type":method=="POST"? "application/x-www-form-urlencoded":"json",
-        "Cookie":app.globalData.cookie,
+        //"Content-Type":method=="POST"? "application/x-www-form-urlencoded":"json",
+        //"Content-Type":"application/json",
+        "Content-Type":method=="POST"? "application/json":"json",
+        "Cookie":j.app.globalData.cookie,
       },
       success:res=>{
         if(res.statusCode!=200){
+          res.code=-1;
+          res.msg=res.errMsg;
+          j.error(""+res.statusCode);
           def.reject(res);
+          return;
+        }
+        if(res.data.code<0){
+          def.reject(res.data);
           return;
         }
         def.resolve(res.data);
       },
       fail:err=>{
-        j.error(err);
+        err.code=-1;
+        err.msg=err.errMsg;
+        j.msg(err.errMsg);
+        
         def.reject(err);
+      },
+      complete:()=>{
+        j.hideload();
       }
     });
     req.onHeadersReceived(function(res) {
       res.tag="header";
       def.progress(res);
     });
-    return def.promise;
+    return def.promise();
   },
   post:(url,data)=>{
     return j.ajax("POST",url,data);
@@ -88,6 +153,15 @@ const j={
       title: msg+"",
       icon:"none",
     });
+  },
+  load:()=>{
+    wx.showLoading({
+      title: '加载中',
+      mask:true
+    })
+  },
+  hideload:()=>{
+    wx.hideLoading();
   }
 };
 
@@ -170,6 +244,11 @@ Number.prototype.toMoneyString = function () {
   }
   x = x.padEnd(2, '0');
   return z + "." + x;
+}
+j.firstValue=function(obj){
+  const keys = Object.keys(obj||{});
+  if(keys.length<=0) return;
+  return obj[keys[0]];
 }
 
 module.exports = j;

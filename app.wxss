@@ -1,4 +1,7 @@
 /**app.wxss**/
+page{
+  height: 100%;
+}
 .container {
   height: 100%;
   display: flex;
@@ -7,5 +10,5 @@
   justify-content: space-between;
   padding: 200rpx 0;
   box-sizing: border-box;
-  background: brown;
+  background: rgb(186, 222, 236);
 } 

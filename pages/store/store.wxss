@@ -3,49 +3,19 @@ page{
   height: 100%;
 }
 .list{
-  background: red;
   height: 100%;
 }
-.item{
-background: chartreuse;
-height:200rpx;
-border: 1rpx solid #ff0;
-box-sizing: border-box;
-display: flex;
-flex-flow: row nowrap;
-justify-content:space-between;
-align-items:stretch;
-}
-.part{
-background: coral;
-}
-.part:nth-child(1){
-  flex-grow: 0;
-  background: #900;
-  width: 200rpx;
+.fixedbtn{
+  position: fixed;
+  bottom: 100rpx;
+  right:20rpx;
+  width:100rpx;
+  height: 100rpx;
+  background: #4c0;
+  border-radius: 50%;
   display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
   justify-content: center;
-}
-.part:nth-child(2){
-  flex-grow: 5;
-
-  display: flex;
-  flex-flow: row nowrap;
   align-items: center;
-  justify-content: flex-start;
+  box-shadow: 0 0 5px 0 black;
+  z-index: 99999;
 }
-.part:nth-child(3){
-  flex-grow: 1;
-
-  background: crimson;
-  color: white;
-  
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: center;
-}
-
-

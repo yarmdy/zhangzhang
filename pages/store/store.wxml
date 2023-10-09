@@ -1,13 +1,32 @@
+<wxs module="move">
+module.exports.fixedMove=function(e,ownerInstance){
+  var el = e.instance;
+  var pos = el.getComputedStyle(["width","height"]);
+  pos.left = e.touches[0].clientX-(pos.width.replace("px","")/2)+"px";
+  pos.top = e.touches[0].clientY-(pos.height.replace("px","")/2)+"px";
+  el.setStyle(pos);
+  return false;
+}
+</wxs>
 <!--index.wxml-->
 <scroll-view class="list" scroll-y="true" bindscrolltolower="scrollend">
-  <view wx:for="{{itemlist}}" class="item" wx:key="id">
-    <view class="part">头像</view>
-    <view class="part">{{item.name}}</view>
-    <view class="part">编辑</view>
+  <mp-cells title="产品列表">
+    <mp-slideview wx:for="{{itemlist}}" wx:key="id" buttons="{{slideButtons}}" show="{{false}}" data="{{item}}">
+      <mp-cell hover="{{false}}" link="{{true}}">
+        <view>{{item.name}}</view>
+        <view slot="icon">icon</view>
+        <view slot="footer">文字</view>
+      </mp-cell>
+    </mp-slideview>
+  </mp-cells>
+  <view class="weui-loadmore" wx:if="{{loading}}">
+    <view class="weui-loading"></view>
+    <view class="weui-loadmore__tips">正在加载</view>
   </view>
-  <view class="item">1</view>
-  <view class="item">2</view>
-  <view class="item">3</view>
-  <view class="item">4</view>
-  <view class="item">5</view>
+  <view class="weui-loadmore" wx:if="{{loaded}}">
+    <view class="weui-loadmore__tips">没有了</view>
+  </view>
 </scroll-view>
+<view class="fixedbtn" bind:tap="add" bind:touchmove="{{move.fixedMove}}">
+  <mp-icon icon="add" color="white" size="{{30}}"></mp-icon>
+</view>

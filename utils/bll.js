@@ -1,5 +1,5 @@
 const istest=true;
-const domain="https://iem.aiibill.cn";
+const domain="http://192.168.0.11:5062";
 const j = require("core");
 const curl=(url="")=>{
   url=url.toLowerCase().trim();
@@ -13,7 +13,8 @@ const urls={
     add:"/item/add",
     edit:"/item/edit",
     del:"/item/del",
-    list:"/item/list"
+    list:"/item/list",
+    bycode:"/item/bycode",
   },
   record:{
     info:"/record/info"
@@ -34,7 +35,9 @@ const urls={
     list:"/in/list"
   },
   user:{
-    login:"/user/login",
+    login:"/Account/GetCookie",
+    setuserinfo:"/Account/SetUserInfo",
+    createuser:"/Account/CreateUser",
   }
 };
 const bll={
@@ -56,6 +59,9 @@ const bll={
       obj.ids=ids;
       obj.rnd=Math.random();
       return j.get(curl(urls.item.add),obj);
+    },
+    bycode:(code)=>{
+      return j.get(curl(urls.item.bycode)+"?code="+code,{});
     }
   },
   record:{
@@ -108,6 +114,23 @@ const bll={
       obj.ids=ids;
       obj.rnd=Math.random();
       return j.post(curl(urls.in.list),obj);
+    }
+  },
+  user:{
+    login:(code)=>{
+      let obj={};
+      obj.rnd=Math.random();
+      return j.post(curl(urls.user.login)+"?code="+code,obj);
+    },
+    setuserinfo:(data)=>{
+      data=data||{};
+      data.rnd=Math.random();
+      return j.post(curl(urls.user.setuserinfo),data);
+    },
+    createuser:(code,data)=>{
+      data=data||{};
+      data.rnd=Math.random();
+      return j.post(curl(urls.user.createuser)+"?code="+code,data);
     }
   }
 };
