@@ -39,6 +39,12 @@ Page({
   onLoad(){
     this.getList(1);
   },
+  edit(e){
+    wx.navigateTo({
+      url: '/pages/item/edit/edit?id='+e.currentTarget.dataset.id
+    });
+    
+  },
   async add(){
     let res = await wx.scanCode({scanType:['barCode']}).catch(err=>{
       wx.navigateTo({

@@ -12,7 +12,7 @@ module.exports.fixedMove=function(e,ownerInstance){
 <!-- <scroll-view class="list" scroll-y="true" bindscrolltolower="scrollend"> -->
   <mp-cells title="产品列表">
     <mp-slideview wx:for="{{itemlist}}" wx:key="id" buttons="{{slideButtons}}" show="{{false}}" data="{{item}}">
-      <mp-cell hover="{{false}}" link="{{true}}">
+      <mp-cell hover="{{false}}" link="{{true}}" data-id="{{item.id}}" bind:tap="edit">
         <view>{{item.name}}</view>
         <!-- <view slot="icon">icon</view> -->
         <view slot="footer">文字</view>
