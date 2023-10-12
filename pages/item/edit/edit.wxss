@@ -1,0 +1,6 @@
+/* pages/item/edit/edit.wxss */
+.title{
+  padding: 20rpx 0;
+  text-align: center;
+  font-weight: 600;
+}

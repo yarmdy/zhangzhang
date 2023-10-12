@@ -1,10 +1,8 @@
 /**index.wxss**/
 page{
-  height: 100%;
+  height: auto;
 }
-.list{
-  height: 100%;
-}
+
 .fixedbtn{
   position: fixed;
   bottom: 100rpx;

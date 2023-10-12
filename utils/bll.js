@@ -15,6 +15,7 @@ const urls={
     del:"/item/del",
     list:"/item/list",
     bycode:"/item/bycode",
+    get:"/item/get"
   },
   record:{
     info:"/record/info"
@@ -54,14 +55,15 @@ const bll={
       obj.rnd=Math.random();
       return j.post(curl(urls.item.del),obj);
     },
-    list:(ids=[])=>{
-      let obj={};
-      obj.ids=ids;
+    list:(obj={})=>{
       obj.rnd=Math.random();
-      return j.get(curl(urls.item.add),obj);
+      return j.post(curl(urls.item.list),obj);
     },
     bycode:(code)=>{
       return j.get(curl(urls.item.bycode)+"?code="+code,{});
+    },
+    get:(id)=>{
+      return j.get(curl(urls.item.get)+"/"+id,{});
     }
   },
   record:{

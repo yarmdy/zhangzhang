@@ -106,6 +106,7 @@ const j={
           return;
         }
         if(res.data.code<0){
+          j.msg(res.data.msg);
           def.reject(res.data);
           return;
         }

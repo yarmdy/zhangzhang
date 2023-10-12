@@ -1,0 +1,21 @@
+<!--pages/item/edit/edit.wxml-->
+<view class="title">{{title}}</view>
+<mp-form id="form" rules="{{rules}}" models="{{item}}">
+  <mp-cells title="产品信息">
+    <mp-cell title="产品编码" show-error="true" prop="code">
+        <input value="{{item.code}}" data-name="code"  placeholder="产品编码" bindinput="valueChange"/>
+    </mp-cell>
+    <mp-cell title="产品名称" show-error="true" prop="name">
+        <input value="{{item.name}}" data-name="name"  placeholder="产品名称" bindinput="valueChange"/>
+    </mp-cell>
+    <mp-cell title="单价" show-error="true" prop="price">
+        <input type="digit" value="{{item.price}}" data-name="price"  placeholder="单价" bindinput="valueChange"/>
+    </mp-cell>
+    <mp-cell title="成本" show-error="true" prop="cost">
+        <input type="digit" value="{{item.cost}}" data-name="cost"  placeholder="成本" bindinput="valueChange"/>
+    </mp-cell>
+  </mp-cells>
+  <mp-toptips msg="{{errMsg}}" type="error" show="{{!isValid}}" delay="2000"></mp-toptips>
+  <button class="weui-btn" type="primary" bindtap="submitForm" style="margin-top: 50rpx;">确定</button>
+  <button class="weui-btn" type="default" bindtap="closePage" style="margin-top: 50rpx;">取消</button>
+</mp-form>

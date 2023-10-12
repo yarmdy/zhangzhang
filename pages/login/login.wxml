@@ -1,0 +1,5 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+<view>用户登录</view>
+<view><button bind:tap="onLoginTap">登录</button></view>
+</view>

@@ -9,15 +9,16 @@ module.exports.fixedMove=function(e,ownerInstance){
 }
 </wxs>
 <!--index.wxml-->
-<scroll-view class="list" scroll-y="true" bindscrolltolower="scrollend">
+<!-- <scroll-view class="list" scroll-y="true" bindscrolltolower="scrollend"> -->
   <mp-cells title="产品列表">
     <mp-slideview wx:for="{{itemlist}}" wx:key="id" buttons="{{slideButtons}}" show="{{false}}" data="{{item}}">
       <mp-cell hover="{{false}}" link="{{true}}">
         <view>{{item.name}}</view>
-        <view slot="icon">icon</view>
+        <!-- <view slot="icon">icon</view> -->
         <view slot="footer">文字</view>
       </mp-cell>
     </mp-slideview>
+    
   </mp-cells>
   <view class="weui-loadmore" wx:if="{{loading}}">
     <view class="weui-loading"></view>
@@ -26,7 +27,7 @@ module.exports.fixedMove=function(e,ownerInstance){
   <view class="weui-loadmore" wx:if="{{loaded}}">
     <view class="weui-loadmore__tips">没有了</view>
   </view>
-</scroll-view>
+<!-- </scroll-view> -->
 <view class="fixedbtn" bind:tap="add" bind:touchmove="{{move.fixedMove}}">
   <mp-icon icon="add" color="white" size="{{30}}"></mp-icon>
 </view>

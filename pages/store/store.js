@@ -22,18 +22,22 @@ Page({
       }
     ],
     loading:false,
-    loaded:false
+    loaded:false,
+    page:1,
+    size:10
+  },
+  onReachBottom(){
+    this.getList();
+  },
+  async onPullDownRefresh(){
+    await this.getList(1);
+    wx.stopPullDownRefresh();
   },
   scrollend(a,b,c){
-    console.log(a,b,c);
-    wx.showToast({
-      title: '飞翔',
-      icon:"none",
-      mask:true
-    });
+    this.getList();
   },
-  onShow(){
-    
+  onLoad(){
+    this.getList(1);
   },
   async add(){
     let res = await wx.scanCode({scanType:['barCode']}).catch(err=>{
@@ -56,5 +60,30 @@ Page({
       });
     }
     
+  },
+  async getList(page,size){
+    if(this.data.loaded && page!=1 || this.data.loading){
+      return;
+    }
+    const $this=this;
+    this.data.page = page||this.data.page;
+    this.data.size = size||this.data.size;
+    this.setData({loading:true});
+    var json = await bll.item.list({page:this.data.page,size:this.data.size}).fail(function(error){
+      $this.setData({loading:false});
+    });
+    this.data.loading=false;
+    if(this.data.page==1){
+      this.data.itemlist=json.data;
+    }else{
+      this.data.itemlist=this.data.itemlist.concat(json.data);
+    }
+    if(json.data.length<this.data.size){
+      this.data.loaded=true;
+    }else{
+      this.data.loaded=false;
+    }
+    this.data.page++;
+    this.setData(this.data);
   }
 })

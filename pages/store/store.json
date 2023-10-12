@@ -8,5 +8,7 @@
   "backgroundTextStyle":"light",
   "navigationBarBackgroundColor": "#4c0",
   "navigationBarTitleText": "掌账账",
-  "navigationBarTextStyle":"white"
+  "navigationBarTextStyle":"white",
+  "enablePullDownRefresh": true,
+  "onReachBottomDistance": 50
 }
